@@ -15,10 +15,7 @@ public class Board {
     private void initializeBoard() {
         generateTile();
         generateTile();
-        generateTile();
-        generateTile();
-        generateTile();
-        generateTile();
+
     }
 
     public void generateTile() {
@@ -48,6 +45,18 @@ public class Board {
         return tiles[x][y] == null;
     }
 
+    public void mergeTiles(Tile lastMerged, int row, int col, int rowOffset, int colOffset) {
+        int newRow = row + rowOffset;
+        int newCol = col + colOffset;
+
+        if (lastMerged != null && newRow >= 0 && newRow < 4 && newCol >= 0 && newCol < 4
+                && tiles[newRow][newCol] != null && tiles[newRow][newCol].getValue() == tiles[row][col].getValue()) {
+            tiles[newRow][newCol].setValue(tiles[newRow][newCol].getValue() * 2);
+            tiles[row][col] = null;
+            merged = true;
+        }
+    }
+
     public void moveUp() {
         for (int i = 0; i < 4; i++) {
             int targetRow = 0;
@@ -59,12 +68,9 @@ public class Board {
                         tiles[targetRow][i] = tiles[j][i];
                         tiles[j][i] = null;
                     }
-                    if(lastMerged != null && targetRow > 0 && tiles[targetRow - 1][i] != null && tiles[targetRow - 1][i].getValue() == tiles[targetRow][i].getValue()){
-                        tiles[targetRow - 1][i].setValue(tiles[targetRow - 1][i].getValue() * 2);
-                        tiles[targetRow][i] = null;
-                        merged = true;
-                    }
+                    mergeTiles(lastMerged, targetRow, i, -1, 0);
                     lastMerged = tiles[targetRow][i];
+
                     if(merged){
                         targetRow--;
                         merged = false;
@@ -73,6 +79,7 @@ public class Board {
                 }
             }
         }
+        generateTile();
     }
 
     public void moveDown() {
@@ -86,12 +93,9 @@ public class Board {
                         tiles[targetRow][i] = tiles[j][i];
                         tiles[j][i] = null;
                     }
-                    if(lastMerged != null && targetRow < 4 && tiles[targetRow + 1][i] != null && tiles[targetRow + 1][i].getValue() == tiles[targetRow][i].getValue()){
-                        tiles[targetRow + 1][i].setValue(tiles[targetRow + 1][i].getValue() * 2);
-                        tiles[targetRow][i] = null;
-                        merged = true;
-                    }
+                    mergeTiles(lastMerged, targetRow, i, 1, 0);
                     lastMerged = tiles[targetRow][i];
+
                     if(merged){
                         targetRow++;
                         merged = false;
@@ -100,6 +104,7 @@ public class Board {
                 }
             }
         }
+        generateTile();
     }
 
     public void moveLeft() {
@@ -113,12 +118,9 @@ public class Board {
                         tiles[i][targetColumn] = tiles[i][j];
                         tiles[i][j] = null;
                     }
-                    if(lastMerged != null && targetColumn > 0 && tiles[i][targetColumn - 1] != null && tiles[i][targetColumn - 1].getValue() == tiles[i][targetColumn].getValue()){
-                        tiles[i][targetColumn - 1].setValue(tiles[i][targetColumn - 1].getValue() * 2);
-                        tiles[i][targetColumn] = null;
-                        merged = true;
-                    }
+                    mergeTiles(lastMerged, i, targetColumn, 0, -1);
                     lastMerged = tiles[i][targetColumn];
+
                     if(merged){
                         targetColumn--;
                         merged = false;
@@ -127,6 +129,7 @@ public class Board {
                 }
             }
         }
+        generateTile();
     }
 
     public void moveRight() {
@@ -140,12 +143,9 @@ public class Board {
                         tiles[i][targetColumn] = tiles[i][j];
                         tiles[i][j] = null;
                     }
-                    if(lastMerged != null && targetColumn > 0 && tiles[i][targetColumn + 1] != null && tiles[i][targetColumn + 1].getValue() == tiles[i][targetColumn].getValue()){
-                        tiles[i][targetColumn + 1].setValue(tiles[i][targetColumn + 1].getValue() * 2);
-                        tiles[i][targetColumn] = null;
-                        merged = true;
-                    }
+                    mergeTiles(lastMerged, i, targetColumn, 0, 1);
                     lastMerged = tiles[i][targetColumn];
+
                     if(merged){
                         targetColumn++;
                         merged = false;
@@ -154,6 +154,7 @@ public class Board {
                 }
             }
         }
+        generateTile();
     }
 
     public Tile getTile(int x, int y){

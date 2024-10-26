@@ -48,25 +48,23 @@ public class Board {
         return tiles[x][y] == null;
     }
 
-    private void mergeTiles(int targetRow, int i){
-        if(targetRow > 0 && tiles[targetRow - 1][i] != null && tiles[targetRow - 1][i].getValue() == tiles[targetRow][i].getValue()){
-            tiles[targetRow - 1][i].setValue(tiles[targetRow - 1][i].getValue() * 2);
-            tiles[targetRow][i] = null;
-            merged = true;
-        }
-
-    }
-
     public void moveUp() {
         for (int i = 0; i < 4; i++) {
             int targetRow = 0;
+            Tile lastMerged = null;
+
             for (int j = 0; j < 4; j++) {
                 if (tiles[j][i] != null) {
                     if (j != targetRow) {
                         tiles[targetRow][i] = tiles[j][i];
                         tiles[j][i] = null;
                     }
-                    mergeTiles(targetRow, i);
+                    if(lastMerged != null && targetRow > 0 && tiles[targetRow - 1][i] != null && tiles[targetRow - 1][i].getValue() == tiles[targetRow][i].getValue()){
+                        tiles[targetRow - 1][i].setValue(tiles[targetRow - 1][i].getValue() * 2);
+                        tiles[targetRow][i] = null;
+                        merged = true;
+                    }
+                    lastMerged = tiles[targetRow][i];
                     if(merged){
                         targetRow--;
                         merged = false;
@@ -80,11 +78,23 @@ public class Board {
     public void moveDown() {
         for (int i = 0; i < 4; i++) {
             int targetRow = 3;
+            Tile lastMerged = null;
+
             for (int j = 3; j >= 0; j--) {
                 if (tiles[j][i] != null) {
                     if (j != targetRow) {
                         tiles[targetRow][i] = tiles[j][i];
                         tiles[j][i] = null;
+                    }
+                    if(lastMerged != null && targetRow < 4 && tiles[targetRow + 1][i] != null && tiles[targetRow + 1][i].getValue() == tiles[targetRow][i].getValue()){
+                        tiles[targetRow + 1][i].setValue(tiles[targetRow + 1][i].getValue() * 2);
+                        tiles[targetRow][i] = null;
+                        merged = true;
+                    }
+                    lastMerged = tiles[targetRow][i];
+                    if(merged){
+                        targetRow++;
+                        merged = false;
                     }
                     targetRow--;
                 }
@@ -95,11 +105,23 @@ public class Board {
     public void moveLeft() {
         for (int i = 0; i < 4; i++) {
             int targetColumn = 0;
+            Tile lastMerged = null;
+
             for (int j = 0; j < 4; j++) {
                 if (tiles[i][j] != null) {
                     if (j != targetColumn) {
                         tiles[i][targetColumn] = tiles[i][j];
                         tiles[i][j] = null;
+                    }
+                    if(lastMerged != null && targetColumn > 0 && tiles[i][targetColumn - 1] != null && tiles[i][targetColumn - 1].getValue() == tiles[i][targetColumn].getValue()){
+                        tiles[i][targetColumn - 1].setValue(tiles[i][targetColumn - 1].getValue() * 2);
+                        tiles[i][targetColumn] = null;
+                        merged = true;
+                    }
+                    lastMerged = tiles[i][targetColumn];
+                    if(merged){
+                        targetColumn--;
+                        merged = false;
                     }
                     targetColumn++;
                 }
@@ -110,11 +132,23 @@ public class Board {
     public void moveRight() {
         for (int i = 0; i < 4; i++) {
             int targetColumn = 3;
+            Tile lastMerged = null;
+
             for (int j = 3; j >= 0; j--) {
                 if (tiles[i][j] != null) {
                     if (j != targetColumn) {
                         tiles[i][targetColumn] = tiles[i][j];
                         tiles[i][j] = null;
+                    }
+                    if(lastMerged != null && targetColumn > 0 && tiles[i][targetColumn + 1] != null && tiles[i][targetColumn + 1].getValue() == tiles[i][targetColumn].getValue()){
+                        tiles[i][targetColumn + 1].setValue(tiles[i][targetColumn + 1].getValue() * 2);
+                        tiles[i][targetColumn] = null;
+                        merged = true;
+                    }
+                    lastMerged = tiles[i][targetColumn];
+                    if(merged){
+                        targetColumn++;
+                        merged = false;
                     }
                     targetColumn--;
                 }

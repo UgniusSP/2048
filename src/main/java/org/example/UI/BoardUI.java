@@ -1,7 +1,7 @@
 package org.example.UI;
 
-import org.example.Tile.Board;
-import org.example.Tile.Tile;
+import org.example.Logic.Game;
+import org.example.Logic.Model.Tile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,10 +20,10 @@ public class BoardUI extends JPanel implements KeyListener {
     private static final int TITLE_PLACE_START_X = 133;
     private static final int TITLE_PLACE_START_Y = 120;
     private final Tile[][] tilePlaces = new Tile[4][4];
-    private final Board board;
+    private final Game game;
 
-    public BoardUI(Board board) {
-        this.board = board;
+    public BoardUI(Game game) {
+        this.game = game;
         setFocusable(true);
         addKeyListener(this);
     }
@@ -34,6 +34,8 @@ public class BoardUI extends JPanel implements KeyListener {
         drawBackground(g);
         drawTilePlaces(g);
         drawTile(g);
+        gameOver();
+        requestFocusInWindow();
     }
 
     public void drawBackground(Graphics g) {
@@ -66,7 +68,7 @@ public class BoardUI extends JPanel implements KeyListener {
     public void drawTile(Graphics g) {
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
-                Tile tile = board.getTile(i, j);
+                Tile tile = game.getTile(i, j);
 
                 if (tile != null && tile.getValue() > 0) {
                     int offsetX = TITLE_PLACE_START_X + j * 120;
@@ -87,18 +89,23 @@ public class BoardUI extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                board.moveUp();
+                game.moveUp();
+                System.out.println("UP");
                 break;
             case KeyEvent.VK_DOWN:
-                board.moveDown();
+                game.moveDown();
+                System.out.println("DOWN");
                 break;
             case KeyEvent.VK_LEFT:
-                board.moveLeft();
+                game.moveLeft();
+                System.out.println("LEFT");
                 break;
             case KeyEvent.VK_RIGHT:
-                board.moveRight();
+                game.moveRight();
+                System.out.println("RIGHT");
                 break;
         }
+        revalidate();
         repaint();
     }
 
@@ -110,5 +117,11 @@ public class BoardUI extends JPanel implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         // Not used
+    }
+
+    private void gameOver() {
+        if(game.isGameOver()){
+            JOptionPane.showMessageDialog(this, "Game Over");
+        }
     }
 }

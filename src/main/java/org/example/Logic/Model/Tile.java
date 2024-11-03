@@ -1,4 +1,4 @@
-package org.example.Tile;
+package org.example.Logic.Model;
 
 public class Tile {
     private int x;
@@ -11,6 +11,16 @@ public class Tile {
         this.value = value;
     }
 
+    public boolean canMerge(Tile other) {
+        return this.value == other.value;
+    }
+
+    public void merge(Tile other) {
+        if(canMerge(other)) {
+            other.value *= 2;
+        }
+    }
+
     public int getX() {
         return x;
     }
@@ -21,9 +31,5 @@ public class Tile {
 
     public int getValue() {
         return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 }

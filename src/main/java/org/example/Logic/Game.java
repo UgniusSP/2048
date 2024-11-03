@@ -14,12 +14,12 @@ public class Game {
     private final TileGenerator tileGenerator;
     private final Board board;
 
-    public Game(Mover mover, Board board) {
+    public Game(Mover mover, Board board, TileMerger tileMerger, TileGenerator tileGenerator, Tile[][] tiles) {
         this.mover = mover;
         this.board = board;
-        this.tiles = new Tile[4][4];
-        this.tileMerger = new TileMerger();
-        this.tileGenerator = new TileGenerator();
+        this.tiles = tiles;
+        this.tileMerger = tileMerger;
+        this.tileGenerator = tileGenerator;
         initializeBoard();
     }
 
@@ -58,5 +58,9 @@ public class Game {
 
     public boolean isGameOver(){
         return board.gameOver(tiles);
+    }
+
+    public boolean isGameWon(){
+        return board.gameWon(tiles);
     }
 }

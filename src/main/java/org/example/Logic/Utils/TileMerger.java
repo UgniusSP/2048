@@ -11,6 +11,7 @@ public class TileMerger {
         if(currentTile != null && nextTile != null && currentTile.canMerge(nextTile)){
             currentTile.merge(nextTile);
             tiles[row][column] = null;
+            Scoreboard.countScore(currentTile.getValue() * 2);
             return true;
         }
         return false;

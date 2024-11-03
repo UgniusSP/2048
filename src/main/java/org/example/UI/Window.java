@@ -1,6 +1,8 @@
 package org.example.UI;
 
 import javax.swing.*;
+import java.awt.*;
+
 import static org.example.UI.Colors.*;
 
 public class Window extends JFrame {
@@ -10,6 +12,7 @@ public class Window extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(750, 750);
         setBackground();
+        setLayout(new BorderLayout());
     }
 
     public void showWindow() {

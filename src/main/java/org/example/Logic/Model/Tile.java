@@ -1,13 +1,9 @@
 package org.example.Logic.Model;
 
 public class Tile {
-    private int x;
-    private int y;
     private int value;
 
-    public Tile(int x, int y, int value) {
-        this.x = x;
-        this.y = y;
+    public Tile(int value) {
         this.value = value;
     }
 
@@ -19,14 +15,6 @@ public class Tile {
         if(canMerge(other)) {
             other.value *= 2;
         }
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public int getValue() {

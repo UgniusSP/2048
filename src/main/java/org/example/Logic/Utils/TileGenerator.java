@@ -13,7 +13,7 @@ public class TileGenerator {
             position = generateTilePosition();
         } while (!isTileEmpty(tiles, position[0], position[1]));
 
-        tiles[position[0]][position[1]] = new Tile(position[0], position[1], generateTileValue());
+        tiles[position[0]][position[1]] = new Tile(generateTileValue());
     }
 
     private boolean isTileEmpty(Tile[][] tiles, int x, int y) {

@@ -20,12 +20,20 @@ public class BoardUI extends JPanel implements KeyListener {
     private final Tile[][] tilePlaces = new Tile[4][4];
     private final Game game;
     private final ScoreboardUI scoreboardUI;
+    private static BoardUI instance;
 
     public BoardUI(Game game, ScoreboardUI scoreboardUI) {
         this.game = game;
         this.scoreboardUI = scoreboardUI;
         setFocusable(true);
         addKeyListener(this);
+    }
+
+    public static BoardUI getInstance(Game game, ScoreboardUI scoreboardUI) {
+        if(instance == null) {
+            instance = new BoardUI(game, scoreboardUI);
+        }
+        return instance;
     }
 
     @Override

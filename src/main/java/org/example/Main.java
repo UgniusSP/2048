@@ -16,8 +16,8 @@ public class Main {
     public static void main(String[] args) {
         Game game = new Game(new Mover(), new Board(), new TileMerger(), new TileGenerator(), new Tile[4][4]);
         Window window = new Window("2048");
-        ScoreboardUI scoreboard = new ScoreboardUI();
-        BoardUI boardUI = new BoardUI(game, scoreboard);
+        ScoreboardUI scoreboard = ScoreboardUI.getInstance();
+        BoardUI boardUI = BoardUI.getInstance(game, scoreboard);
 
         window.add(scoreboard, BorderLayout.NORTH);
         window.add(boardUI, BorderLayout.CENTER);
